@@ -1,21 +1,23 @@
-const BASE_URL = "https://development-internship-api.geopostenergy.com";
+const BASE_URL = "/api";
 
 export const getTeams = async () => {
-  const response = await fetch(`${BASE_URL}/WorldCup/GetAllTeams`, {
-    headers: {
-      "git-user": "seu_usuario"
-    }
-  });
-  return response.json();
-};
+  try {
+    const response = await fetch(`${BASE_URL}/WorldCup/GetAllTeams`, {
+      method: "GET",
+      headers: {
+        "git-user": "Jogador"
+      }
+    });
 
-export const sendResult = async (data) => {
-  return fetch(`${BASE_URL}/WorldCup/FinalResult`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "git-user": "seu_usuario"
-    },
-    body: JSON.stringify(data)
-  });
+    if (!response.ok) {
+      throw new Error("Erro ao buscar seleções");
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error("Erro na API:", error);
+    return [];
+  }
 };
