@@ -20,7 +20,7 @@ const Table = ({ table = [], groupName }) => {
         <tbody>
           {table.map((teamData, index) => {
             const team = teamData.team;
-            // Verifica se o objeto team existe para evitar erros de renderização
+
             if (!team) return null;
 
             return (

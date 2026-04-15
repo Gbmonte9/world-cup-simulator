@@ -12,7 +12,6 @@ const Match = ({ match }) => {
 
   return (
     <div className="match-card">
-      {/* Linha do Time A */}
       <div className="match-team-row">
         <div className="team-info">
           {teamA.flag && (
@@ -23,7 +22,6 @@ const Match = ({ match }) => {
         <span className="match-score-number">{goalsA}</span>
       </div>
 
-      {/* Linha do Time B - CORRIGIDO PARA teamB */}
       <div className="match-team-row">
         <div className="team-info">
           {teamB.flag && (
@@ -34,7 +32,6 @@ const Match = ({ match }) => {
         <span className="match-score-number">{goalsB}</span>
       </div>
 
-      {/* Info de Pênaltis */}
       {(penaltyTeamA !== undefined && (penaltyTeamA > 0 || penaltyTeamB > 0)) && (
         <div className="match-penalty-small">
           PÊNALTIS: {penaltyTeamA} — {penaltyTeamB}

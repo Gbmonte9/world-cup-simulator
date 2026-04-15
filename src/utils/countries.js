@@ -1,5 +1,3 @@
-/* utils/countries.js */
-
 export const countryToCode = {
   "Marrocos": "ma",
   "Chile": "cl",

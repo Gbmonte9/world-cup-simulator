@@ -1,5 +1,4 @@
 const Group = ({ name, teams = [] }) => {
-  // Proteção contra dados vazios
   if (!teams || teams.length === 0) return null;
 
   return (
@@ -10,7 +9,7 @@ const Group = ({ name, teams = [] }) => {
       
       <div className="group-teams-list">
         {teams.map((team, index) => {
-          // Garante que o objeto do time existe
+
           if (!team) return null;
 
           return (

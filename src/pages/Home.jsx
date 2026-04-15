@@ -72,7 +72,6 @@ const Home = ({ teams }) => {
         <button onClick={simulateWorldCup}>Simular Copa</button>
       </div>
 
-      {/* SEÇÃO INICIAL: GRUPOS E TABELAS */}
       {(groups || Object.keys(tables).length > 0) && (
         <div className="group-stage-section">
           {["A", "B", "C", "D", "E", "F", "G", "H"].map((groupName) => (
@@ -84,11 +83,9 @@ const Home = ({ teams }) => {
         </div>
       )}
 
-      {/* DIAGRAMA DE MATA-MATA ATUALIZADO */}
       {round16.length > 0 && (
         <div className="world-cup-diagram">
           
-          {/* LADO ESQUERDO: Oitavas e Quartas */}
           <div className="bracket-column">
             <span className="phase-label">Oitavas</span>
             <Bracket matches={round16.slice(0, 4)} />
@@ -99,7 +96,6 @@ const Home = ({ teams }) => {
             <Bracket matches={quarters.slice(0, 2)} />
           </div>
 
-          {/* BLOCO CENTRAL: PIRÂMIDE (FINAL NO TOPO, SEMIS ABAIXO) */}
           <div className="bracket-center-complex">
             
             <div className="final-area">
@@ -131,7 +127,6 @@ const Home = ({ teams }) => {
             )}
           </div>
 
-          {/* LADO DIREITO: Quartas e Oitavas */}
           <div className="bracket-column">
             <span className="phase-label">Quartas</span>
             <Bracket matches={quarters.slice(2, 4)} />

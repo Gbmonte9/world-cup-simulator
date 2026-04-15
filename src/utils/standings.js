@@ -11,7 +11,6 @@ export const calculateStandings = (matches) => {
 
     if (!teamA || !teamB) return;
 
-    // ✅ ID SEGURO (CORREÇÃO PRINCIPAL)
     const idA = teamA.token || teamA.id || teamA.nome;
     const idB = teamB.token || teamB.id || teamB.nome;
 
@@ -35,14 +34,12 @@ export const calculateStandings = (matches) => {
       };
     }
 
-    // ⚽ gols
     table[idA].goalsFor += goalsA;
     table[idA].goalsAgainst += goalsB;
 
     table[idB].goalsFor += goalsB;
     table[idB].goalsAgainst += goalsA;
 
-    // 🏆 pontos
     if (goalsA > goalsB) {
       table[idA].points += 3;
     } else if (goalsB > goalsA) {
@@ -53,12 +50,10 @@ export const calculateStandings = (matches) => {
     }
   });
 
-  // 📊 saldo de gols
   Object.values(table).forEach(team => {
     team.goalDifference = team.goalsFor - team.goalsAgainst;
   });
 
-  // 📈 ordenação
   const sortedTable = Object.values(table).sort((a, b) => {
     if (b.points !== a.points) {
       return b.points - a.points;
@@ -68,7 +63,6 @@ export const calculateStandings = (matches) => {
       return b.goalDifference - a.goalDifference;
     }
 
-    // 🎲 desempate aleatório
     return Math.random() - 0.5;
   });
 

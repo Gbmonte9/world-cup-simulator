@@ -1,6 +1,5 @@
 const getRandomGoals = () => Math.floor(Math.random() * 6);
 
-// ✅ pênaltis mais realistas (3 a 5)
 const simulatePenalty = () => {
   let teamA = Math.floor(Math.random() * 3) + 3;
   let teamB = Math.floor(Math.random() * 3) + 3;
@@ -13,7 +12,6 @@ const simulatePenalty = () => {
 };
 
 const simulateMatch = (teamA, teamB) => {
-  // ✅ fallback em vez de quebrar
   if (!teamA || !teamB) {
     console.warn("⚠️ simulateMatch: corrigindo times inválidos");
     return {
