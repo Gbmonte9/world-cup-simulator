@@ -5,7 +5,7 @@ export const getTeams = async () => {
     const response = await fetch(`${BASE_URL}/WorldCup/GetAllTeams`, {
       method: "GET",
       headers: {
-        "git-user": "GbMonte9"
+        "git-user": "Gbmonte9"
       }
     });
 
