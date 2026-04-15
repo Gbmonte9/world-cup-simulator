@@ -1,11 +1,22 @@
 export const calculateStandings = (matches) => {
+  if (!Array.isArray(matches)) {
+    console.error("calculateStandings: esperado um array de partidas");
+    return [];
+  }
+
   const table = {};
 
   matches.forEach(match => {
     const { teamA, teamB, goalsA, goalsB } = match;
 
-    if (!table[teamA.token]) {
-      table[teamA.token] = {
+    if (!teamA || !teamB) return;
+
+    // ✅ ID SEGURO (CORREÇÃO PRINCIPAL)
+    const idA = teamA.token || teamA.id || teamA.nome;
+    const idB = teamB.token || teamB.id || teamB.nome;
+
+    if (!table[idA]) {
+      table[idA] = {
         team: teamA,
         points: 0,
         goalsFor: 0,
@@ -14,8 +25,8 @@ export const calculateStandings = (matches) => {
       };
     }
 
-    if (!table[teamB.token]) {
-      table[teamB.token] = {
+    if (!table[idB]) {
+      table[idB] = {
         team: teamB,
         points: 0,
         goalsFor: 0,
@@ -24,26 +35,30 @@ export const calculateStandings = (matches) => {
       };
     }
 
-    table[teamA.token].goalsFor += goalsA;
-    table[teamA.token].goalsAgainst += goalsB;
+    // ⚽ gols
+    table[idA].goalsFor += goalsA;
+    table[idA].goalsAgainst += goalsB;
 
-    table[teamB.token].goalsFor += goalsB;
-    table[teamB.token].goalsAgainst += goalsA;
+    table[idB].goalsFor += goalsB;
+    table[idB].goalsAgainst += goalsA;
 
+    // 🏆 pontos
     if (goalsA > goalsB) {
-      table[teamA.token].points += 3;
+      table[idA].points += 3;
     } else if (goalsB > goalsA) {
-      table[teamB.token].points += 3;
+      table[idB].points += 3;
     } else {
-      table[teamA.token].points += 1;
-      table[teamB.token].points += 1;
+      table[idA].points += 1;
+      table[idB].points += 1;
     }
   });
 
+  // 📊 saldo de gols
   Object.values(table).forEach(team => {
     team.goalDifference = team.goalsFor - team.goalsAgainst;
   });
 
+  // 📈 ordenação
   const sortedTable = Object.values(table).sort((a, b) => {
     if (b.points !== a.points) {
       return b.points - a.points;
@@ -53,6 +68,7 @@ export const calculateStandings = (matches) => {
       return b.goalDifference - a.goalDifference;
     }
 
+    // 🎲 desempate aleatório
     return Math.random() - 0.5;
   });
 

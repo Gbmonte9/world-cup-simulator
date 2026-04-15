@@ -1,31 +1,50 @@
-const Table = ({ table, groupName }) => {
-  return (
-    <div className="table">
-      <h3>Classificação Grupo {groupName}</h3>
+const Table = ({ table = [], groupName }) => {
+  if (!table || table.length === 0) return null;
 
-      <table>
+  return (
+    <div className="group-table-container">
+      <h3>Grupo {groupName}</h3>
+
+      <table className="world-cup-table">
         <thead>
           <tr>
             <th>#</th>
-            <th>Time</th>
-            <th>Pts</th>
+            <th>Seleção</th>
+            <th>P</th>
             <th>GP</th>
-            <th>GC</th>
             <th>SG</th>
           </tr>
         </thead>
 
         <tbody>
-          {table.map((teamData, index) => (
-            <tr key={teamData.team.token}>
-              <td>{index + 1}</td>
-              <td>{teamData.team.nome}</td>
-              <td>{teamData.points}</td>
-              <td>{teamData.goalsFor}</td>
-              <td>{teamData.goalsAgainst}</td>
-              <td>{teamData.goalDifference}</td>
-            </tr>
-          ))}
+          {table.map((teamData, index) => {
+            const team = teamData.team;
+            if (!team) return null;
+
+            return (
+              <tr
+                key={team.token || `${team.nome}-${index}`}
+                className={index < 2 ? "row-qualified" : "row-eliminated"}
+              >
+                <td className="rank">{index + 1}</td>
+
+                <td className="team-cell">
+                  {team.flag && (
+                    <img
+                      src={team.flag}
+                      alt={team.nome}
+                      className="table-flag"
+                    />
+                  )}
+                  <span className="team-name-table">{team.nome}</span>
+                </td>
+
+                <td className="points">{teamData.points}</td>
+                <td>{teamData.goalsFor}</td>
+                <td className="sg">{teamData.goalDifference}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

@@ -1,11 +1,30 @@
-const Group = ({ name, teams }) => {
-  return (
-    <div className="group">
-      <h2>Grupo {name}</h2>
+const Group = ({ name, teams = [] }) => {
+  if (!teams || teams.length === 0) return null;
 
-      {teams.map((team) => (
-        <p key={team.token}>{team.nome}</p>
-      ))}
+  return (
+    <div className="group-card">
+      <h3>Grupo {name}</h3>
+      <div className="group-teams-list">
+        {teams.map((team, index) => {
+          if (!team) return null;
+
+          return (
+            <div
+              key={team.token || `${team.nome}-${index}`}
+              className="group-team-item"
+            >
+              {team.flag && (
+                <img
+                  src={team.flag}
+                  alt={team.nome}
+                  className="group-flag"
+                />
+              )}
+              <span className="group-team-name">{team.nome}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -5,12 +5,12 @@ export const getTeams = async () => {
     const response = await fetch(`${BASE_URL}/WorldCup/GetAllTeams`, {
       method: "GET",
       headers: {
-        "git-user": "Jogador"
+        "git-user": "SEU_USUARIO_GITHUB"
       }
     });
 
     if (!response.ok) {
-      throw new Error("Erro ao buscar seleções");
+      throw new Error(`Erro ao buscar seleções: ${response.status}`);
     }
 
     const data = await response.json();

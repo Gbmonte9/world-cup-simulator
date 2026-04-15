@@ -1,4 +1,10 @@
 export const shuffleArray = (array) => {
+
+  if (!Array.isArray(array)) {
+    console.error("shuffleArray: esperado um array");
+    return [];
+  }
+
   const shuffled = [...array];
 
   for (let i = shuffled.length - 1; i > 0; i--) {
