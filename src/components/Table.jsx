@@ -1,15 +1,16 @@
 const Table = ({ table = [], groupName }) => {
+  // Verificação de segurança
   if (!table || table.length === 0) return null;
 
   return (
     <div className="group-table-container">
-      <h3>Grupo {groupName}</h3>
+      <h3>GRUPO {groupName}</h3>
 
       <table className="world-cup-table">
         <thead>
           <tr>
             <th>#</th>
-            <th>Seleção</th>
+            <th>SELEÇÃO</th>
             <th>P</th>
             <th>GP</th>
             <th>SG</th>
@@ -19,6 +20,7 @@ const Table = ({ table = [], groupName }) => {
         <tbody>
           {table.map((teamData, index) => {
             const team = teamData.team;
+            // Verifica se o objeto team existe para evitar erros de renderização
             if (!team) return null;
 
             return (
@@ -29,19 +31,21 @@ const Table = ({ table = [], groupName }) => {
                 <td className="rank">{index + 1}</td>
 
                 <td className="team-cell">
-                  {team.flag && (
-                    <img
-                      src={team.flag}
-                      alt={team.nome}
-                      className="table-flag"
+                  {team.flag ? (
+                    <img 
+                      src={team.flag} 
+                      alt={`Bandeira de ${team.nome}`} 
+                      className="table-flag" 
                     />
+                  ) : (
+                    <div className="table-flag-placeholder" /> /* Caso a bandeira falhe */
                   )}
                   <span className="team-name-table">{team.nome}</span>
                 </td>
 
-                <td className="points">{teamData.points}</td>
-                <td>{teamData.goalsFor}</td>
-                <td className="sg">{teamData.goalDifference}</td>
+                <td className="points-cell">{teamData.points}</td>
+                <td className="goals-cell">{teamData.goalsFor}</td>
+                <td className="sg-cell">{teamData.goalDifference}</td>
               </tr>
             );
           })}

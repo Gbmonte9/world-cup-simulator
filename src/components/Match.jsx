@@ -15,25 +15,29 @@ const Match = ({ match }) => {
       {/* Linha do Time A */}
       <div className="match-team-row">
         <div className="team-info">
-          {teamA.flag && <img src={teamA.flag} alt="" className="match-flag" />}
+          {teamA.flag && (
+            <img src={teamA.flag} alt={`Bandeira ${teamA.nome}`} className="match-flag" />
+          )}
           <span className="team-name-text">{teamA.nome || teamA.name}</span>
         </div>
         <span className="match-score-number">{goalsA}</span>
       </div>
 
-      {/* Linha do Time B */}
+      {/* Linha do Time B - CORRIGIDO PARA teamB */}
       <div className="match-team-row">
         <div className="team-info">
-          {teamB.flag && <img src={teamB.flag} alt="" className="match-flag" />}
+          {teamB.flag && (
+            <img src={teamB.flag} alt={`Bandeira ${teamB.nome}`} className="match-flag" />
+          )}
           <span className="team-name-text">{teamB.nome || teamB.name}</span>
         </div>
         <span className="match-score-number">{goalsB}</span>
       </div>
 
-      {/* Info de Pênaltis (aparece apenas se necessário) */}
-      {(penaltyTeamA > 0 || penaltyTeamB > 0) && (
+      {/* Info de Pênaltis */}
+      {(penaltyTeamA !== undefined && (penaltyTeamA > 0 || penaltyTeamB > 0)) && (
         <div className="match-penalty-small">
-          Pênaltis: {penaltyTeamA} - {penaltyTeamB}
+          PÊNALTIS: {penaltyTeamA} — {penaltyTeamB}
         </div>
       )}
     </div>

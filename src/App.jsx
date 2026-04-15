@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getTeams } from "./services/api";
 import { sendResult } from "./services/postResult";
 import { getFlag } from "./utils/flags";
+import { countryToCode } from "./utils/countries";
 
 import Group from "./components/Group";
 import Table from "./components/Table";
@@ -34,10 +35,13 @@ function App() {
       try {
         const data = await getTeams();
         if (!Array.isArray(data)) return;
-        const teamsWithFlags = data.map(team => ({
-          ...team,
-          flag: team.code ? getFlag(team.code) : null
-        }));
+
+        const teamsWithFlags = data.map(team => {
+          const code = countryToCode[team.nome];
+          const flagUrl = code ? getFlag(code) : null;
+          return { ...team, flag: flagUrl };
+        });
+        
         setTeams(teamsWithFlags);
       } catch (error) {
         console.error("Erro ao buscar times:", error);
@@ -57,7 +61,7 @@ function App() {
 
   const simulateWorldCup = async () => {
     if (!teams || teams.length !== 32) {
-      console.error("Times inválidos");
+      alert("Aguarde o carregamento das 32 seleções.");
       return;
     }
 
@@ -106,7 +110,6 @@ function App() {
     } catch (e) {
       console.error("Erro ao enviar resultado:", e);
     }
-    alert(`🏆 Campeão: ${finalResult.winner?.nome}`);
   };
 
   return (
@@ -114,73 +117,80 @@ function App() {
       <h1>🏆 Simulador de Copa do Mundo</h1>
 
       <div className="actions">
-        <button onClick={simulateWorldCup}>Simular Copa Completa</button>
+        <button onClick={simulateWorldCup} className="btn-simulate">
+          Simular Copa Completa
+        </button>
       </div>
 
-      {/* FASE DE GRUPOS (Seções originais) */}
-      <div className="group-stage-container">
+      <div className="group-stage-section">
         {groups && ["A","B","C","D","E","F","G","H"].map((groupName) => (
-          <div key={groupName} className="group-wrapper">
+          <div key={groupName} className="group-container-wrapper">
              <Group name={groupName} teams={groups[groupName] || []} />
-             {tables[groupName] && <Table groupName={groupName} table={tables[groupName]} />}
+             {tables[groupName] && <Table groupName={groupName} table={tables[groupName] || []} />}
           </div>
         ))}
       </div>
 
-      {/* 🏆 DIAGRAMA MATA-MATA (Visual da Imagem) */}
       {round16.length > 0 && (
         <div className="world-cup-diagram">
           
-          {/* LADO ESQUERDO: GRUPOS A, B, C, D */}
-          <div className="bracket-side">
-            <div className="bracket-column groups-labels">
-              <div className="group-tag">A</div>
-              <div className="group-tag">B</div>
-              <div className="group-tag">C</div>
-              <div className="group-tag">D</div>
-            </div>
-            <div className="bracket-column">
-              <span className="phase-label">OITAVAS</span>
-              <Bracket matches={round16.slice(0, 4)} />
-            </div>
-            <div className="bracket-column">
-              <span className="phase-label">QUARTAS</span>
-              <Bracket matches={quarters.slice(0, 2)} />
-            </div>
+          {/* LADO ESQUERDO: Oitavas -> Quartas */}
+          <div className="bracket-column left-side">
+            <span className="phase-label">Oitavas</span>
+            <Bracket matches={round16.slice(0, 4)} />
+          </div>
+          <div className="bracket-column left-side">
+            <span className="phase-label">Quartas</span>
+            <Bracket matches={quarters.slice(0, 2)} />
           </div>
 
-          {/* CENTRO: SEMIS E FINAL */}
-          <div className="bracket-center">
-            <div className="semi-section">
-              <span className="phase-label">SEMIFINAL</span>
-              <Bracket matches={semis} />
-            </div>
+          {/* CENTRO: PIRÂMIDE CENTRAL */}
+          <div className="bracket-center-complex">
             
-            {final && (
-              <div className="final-highlight">
-                <span className="phase-label">FINAL</span>
-                <Bracket matches={[final]} />
-                <h2 className="champion-title">🏆 {final.winner?.nome}</h2>
+            {/* FINAL NO TOPO */}
+            <div className="final-area">
+              <span className="phase-label">Grande Final</span>
+              <Bracket matches={[final]} />
+            </div>
+
+            {/* SEMIFINAIS LADO A LADO */}
+            <div className="semis-row">
+              <div className="semi-box">
+                <span className="phase-label">Semifinal</span>
+                {semis[0] && <Bracket matches={[semis[0]]} />}
+              </div>
+              <div className="semi-box">
+                <span className="phase-label">Semifinal</span>
+                {semis[1] && <Bracket matches={[semis[1]]} />}
+              </div>
+            </div>
+
+            {/* CAMPEÃO NA BASE */}
+            {final && final.winner && (
+              <div className="champion-display">
+                <h2 className="champion-title">🏆 CAMPEÃO</h2>
+                <div className="champion-info">
+                  {final.winner.flag && (
+                    <img 
+                      src={final.winner.flag} 
+                      alt="" 
+                      className="champion-flag-big" 
+                    />
+                  )}
+                  <span className="champion-name">{final.winner.nome}</span>
+                </div>
               </div>
             )}
           </div>
 
-          {/* LADO DIREITO: GRUPOS E, F, G, H */}
-          <div className="bracket-side side-right">
-            <div className="bracket-column">
-              <span className="phase-label">QUARTAS</span>
-              <Bracket matches={quarters.slice(2, 4)} />
-            </div>
-            <div className="bracket-column">
-              <span className="phase-label">OITAVAS</span>
-              <Bracket matches={round16.slice(4, 8)} />
-            </div>
-            <div className="bracket-column groups-labels">
-              <div className="group-tag">E</div>
-              <div className="group-tag">F</div>
-              <div className="group-tag">G</div>
-              <div className="group-tag">H</div>
-            </div>
+          {/* LADO DIREITO: Quartas <- Oitavas */}
+          <div className="bracket-column right-side">
+            <span className="phase-label">Quartas</span>
+            <Bracket matches={quarters.slice(2, 4)} />
+          </div>
+          <div className="bracket-column right-side">
+            <span className="phase-label">Oitavas</span>
+            <Bracket matches={round16.slice(4, 8)} />
           </div>
 
         </div>
