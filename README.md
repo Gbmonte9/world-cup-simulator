@@ -1,16 +1,101 @@
-# React + Vite
+# 🏆 Simulador de Copa do Mundo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto foi desenvolvido como parte de um processo seletivo para estágio em desenvolvimento de software.
 
-Currently, two official plugins are available:
+A aplicação simula uma Copa do Mundo completa, desde a fase de grupos até a final, utilizando dados reais de uma API fornecida pela empresa.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Tecnologias utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* React (Vite)
+* JavaScript (ES6+)
+* HTML5 e CSS3
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📌 Funcionalidades
+
+* Consumo de API para obter as 32 seleções
+* Distribuição aleatória das equipes em 8 grupos (A–H)
+* Simulação completa da fase de grupos
+* Cálculo de pontuação (vitória, empate)
+* Classificação automática dos 2 melhores de cada grupo
+* Simulação das fases eliminatórias:
+
+  * Oitavas de final
+  * Quartas de final
+  * Semifinal
+  * Final
+* Simulação de pênaltis em caso de empate no mata-mata
+* Exibição do campeão final
+
+---
+
+## ⚙️ Como executar o projeto
+
+```bash
+# Clone o repositório
+git clone https://github.com/Gbmonte9/world-cup-simulator.git
+
+# Acesse a pasta do projeto
+cd world-cup-simulator
+
+# Instale as dependências
+npm install
+
+# Execute o projeto
+npm run dev
+```
+
+---
+
+## ⚠️ Observação importante (CORS)
+
+A API fornecida possui restrição de CORS, o que impede o envio do resultado final diretamente pelo navegador (frontend).
+
+Por esse motivo:
+
+* O envio do campeão via POST pode ser bloqueado em ambiente local
+* A requisição funciona normalmente em ferramentas como Postman ou via backend
+
+Mesmo assim, toda a lógica de envio foi implementada no projeto.
+
+---
+
+## 📁 Estrutura do projeto
+
+```
+src/
+ ├── components/
+ ├── services/
+ ├── utils/
+ ├── pages/
+ └── App.jsx
+```
+
+---
+
+## 🎯 Objetivo
+
+Demonstrar habilidades em:
+
+* Consumo de APIs
+* Manipulação de dados
+* Lógica de programação
+* Organização de código em React
+* Simulação de sistemas reais
+
+---
+
+## 👨‍💻 Autor
+
+**Gabriel Monte**  
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Perfil-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/gabriel-rodrigues-mt/)
+
+---
+
+## 📌 Observação final
+
+O projeto foi desenvolvido com foco em clareza, organização e fidelidade aos requisitos propostos no desafio.

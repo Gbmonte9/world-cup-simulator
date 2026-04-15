@@ -109,3 +109,28 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.bracket {
+  margin-top: 30px;
+  padding: 15px;
+  background: #111;
+  border-radius: 10px;
+  color: white;
+}
+
+.bracket-match {
+  background: #1e1e1e;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.winner {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.penalty {
+  font-size: 12px;
+  color: #ccc;
+}
