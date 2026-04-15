@@ -11,7 +11,7 @@ export const sendResult = async (finalMatch) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "git-user": "SEU_USUARIO_GITHUB"
+          "git-user": "Gbmonte9"
         },
         body: JSON.stringify({
           teamA: finalMatch.teamA.id,
